@@ -1,0 +1,14 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "outDir": "./lib/dist",
+    "allowJs": true,
+    "target": "es2017",
+    "noEmitOnError": true,
+    "moduleResolution": "node",
+    "module": "commonjs"
+  },
+  "include": [
+    "./lib/src/**/*"
+  ]
+}
