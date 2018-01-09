@@ -41,9 +41,11 @@ import com.reactnativenavigation.screens.Screen;
 import com.reactnativenavigation.utils.OrientationHelper;
 import com.reactnativenavigation.views.SideMenu.Side;
 
+import com.imagepicker.permissions.OnImagePickerPermissionsCallback;
+
 import java.util.List;
 
-public class NavigationActivity extends AppCompatActivity implements DefaultHardwareBackBtnHandler, Subscriber, PermissionAwareActivity {
+public class NavigationActivity extends AppCompatActivity implements DefaultHardwareBackBtnHandler, Subscriber, PermissionAwareActivity, OnImagePickerPermissionsCallback {
 
     /**
      * Although we start multiple activities, we make sure to pass Intent.CLEAR_TASK | Intent.NEW_TASK
@@ -129,6 +131,11 @@ public class NavigationActivity extends AppCompatActivity implements DefaultHard
         EventBus.instance.register(this);
         IntentDataHandler.onPostResume(getIntent());
         NavigationApplication.instance.getEventEmitter().sendActivityResumed(getCurrentlyVisibleEventId());
+    }
+    
+    @Override
+    public void setPermissionListener(@NonNull PermissionListener listener) {
+        mPermissionListener = listener;
     }
 
     private void resolveStartAppPromiseOnActivityResumed() {
@@ -461,7 +468,7 @@ public class NavigationActivity extends AppCompatActivity implements DefaultHard
 
     @TargetApi(Build.VERSION_CODES.M)
     public void requestPermissions(String[] permissions, int requestCode, PermissionListener listener) {
-        mPermissionListener = listener;
+        setPermissionListener(listener);
         requestPermissions(permissions, requestCode);
     }
 
